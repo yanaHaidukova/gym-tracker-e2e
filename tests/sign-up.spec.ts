@@ -1,8 +1,6 @@
 import { test, expect } from './fixtures';
 import { createUser } from './helpers/factories';
 
-// Tests that call signUp() create real Supabase users that are not cleaned up after the run.
-
 test.describe('As a new user, I want to sign up with email and verify it so that my account is secure.', () => {
 
   test('redirects to /check-email after successful sign-up @smoke @US-002', async ({ signUpPage, page }) => {
@@ -26,12 +24,9 @@ test.describe('As a new user, I want to sign up with email and verify it so that
   test.describe('edge cases', () => {
 
     test('shows error when signing up with an existing email @US-002', async ({ signUpPage, page }) => {
-      // clearCookies drops the session: auto-confirm makes the user immediately
-      // authenticated, which causes the middleware to block the second /sign-up visit.
       const existingUser = createUser();
       await signUpPage.signUp(existingUser.fullName, existingUser.email, existingUser.password);
       await expect(page).toHaveURL(/check-email/);
-
       await page.context().clearCookies();
       await signUpPage.goto();
       await signUpPage.signUp(existingUser.fullName, existingUser.email, existingUser.password);
