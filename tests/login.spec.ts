@@ -5,7 +5,7 @@ import { createUser } from './helpers/factories';
 test.describe('Login page', () => {
     const newUser = createUser()
 
-    test.only('user is successfully logged in @smoke', async({ loginPage, signUpPage, page }) => {
+    test('user is successfully logged in @smoke', async({ loginPage, signUpPage, page }) => {
         await signUpPage.signUp(newUser.fullName, newUser.email, newUser.password)
         await expect(page).toHaveURL(/check-email/);
         await page.context().clearCookies();
